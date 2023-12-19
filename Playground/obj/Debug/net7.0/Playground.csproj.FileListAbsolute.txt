@@ -1,0 +1,5 @@
+/Users/hassankhan/Projects/LibraryService/Playground/obj/Debug/net7.0/Playground.csproj.AssemblyReference.cache
+/Users/hassankhan/Projects/LibraryService/Playground/obj/Debug/net7.0/Playground.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hassankhan/Projects/LibraryService/Playground/obj/Debug/net7.0/Playground.AssemblyInfoInputs.cache
+/Users/hassankhan/Projects/LibraryService/Playground/obj/Debug/net7.0/Playground.AssemblyInfo.cs
+/Users/hassankhan/Projects/LibraryService/Playground/obj/Debug/net7.0/Playground.csproj.CoreCompileInputs.cache
