@@ -11,6 +11,6 @@ namespace LibraryService.Processors
         public DomainBook()
 		{
 		}
-	}
+    }
 }
 

@@ -13,7 +13,7 @@ namespace LibraryService.DAL //investigate different collection types in .net --
     {
         BookData GetById(string bookId);
         List<KeyValuePair<int, BookData>> GetAllBooks();
-        Boolean DeleteBookById(string bookId);
+        bool DeleteBookById(string bookId);
         BookData AddBook(BookData bookdata);
     }
 
@@ -75,12 +75,12 @@ namespace LibraryService.DAL //investigate different collection types in .net --
 
 public static class MockData // static class allows you to access values (as long as they are public) without instantiating the class.
 {
-    public static Dictionary<int, BookData> Books = new Dictionary<int, LibraryService.DAL.Contracts.BookData> // use dictionary -> <what youre searching by, what you expect to return>
+    public static Dictionary<int, BookData> Books = new Dictionary<int, BookData> // use dictionary -> <what youre searching by, what you expect to return>
     {
         { 1, new BookData { Id = 1, Title = "The Catcher in the Rye", Author = "J.D. Salinger", DateOfPublication = new DateTime(1951, 7, 16) } },
-        { 2, new LibraryService.DAL.Contracts.BookData { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee", DateOfPublication = new DateTime(1960, 7, 11) } },
-        { 3, new LibraryService.DAL.Contracts.BookData { Id = 3, Title = "1984", Author = "George Orwell", DateOfPublication = new DateTime(1949, 6, 8) } },
-        { 4, new LibraryService.DAL.Contracts.BookData { Id = 4, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", DateOfPublication = new DateTime(1925, 4, 10) } },
-        { 5, new LibraryService.DAL.Contracts.BookData { Id = 5, Title = "Pride and Prejudice", Author = "Jane Austen", DateOfPublication = new DateTime(1813, 1, 28) } }
+        { 2, new BookData { Id = 2, Title = "To Kill a Mockingbird", Author = "Harper Lee", DateOfPublication = new DateTime(1960, 7, 11) } },
+        { 3, new BookData { Id = 3, Title = "1984", Author = "George Orwell", DateOfPublication = new DateTime(1949, 6, 8) } },
+        { 4, new BookData { Id = 4, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", DateOfPublication = new DateTime(1925, 4, 10) } },
+        { 5, new BookData { Id = 5, Title = "Pride and Prejudice", Author = "Jane Austen", DateOfPublication = new DateTime(1813, 1, 28) } }
     };
 }

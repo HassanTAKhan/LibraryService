@@ -36,8 +36,9 @@ public class LibraryController: ControllerBase
 
         if(processedBook != null)
         {
-            var controllerBook = _controllerBookMapper.Map(processedBook);
-            return Ok(controllerBook);
+            _logger.LogInformation("Book Id", processedBook);
+
+            return Ok(processedBook);
         }
         else
         {

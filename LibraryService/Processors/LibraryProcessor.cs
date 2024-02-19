@@ -49,7 +49,7 @@ namespace LibraryService.Processors
             return allDomainbooks.Select(kvp => _domainBookMapper.Map(kvp.Value));
         }
 
-        public Boolean DeleteBookById(string bookId)
+        public bool DeleteBookById(string bookId)
         {
             _bookRepository.DeleteBookById(bookId);
             return true;
