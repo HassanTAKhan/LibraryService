@@ -45,8 +45,8 @@ public class LibraryControllerTests
         mockedLibraryProcessor.Verify(x => x.GetAllBooks(), Times.Once);
 
         Assert.Equal(2, booksList?.Count);
-        Assert.Equal("J.K. Rowling", booksList.First().Author);
-        Assert.Equal("Harper Lee", booksList.Skip(1).First().Author);
+        Assert.Equal(domainBookList[0].Author, booksList?.First().Author);
+        Assert.Equal(domainBookList[1].Author, booksList?.Skip(1).First().Author);
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class LibraryControllerTests
 
         var book = result.Value as DomainBook;
         Assert.NotNull(book);
-        Assert.Equal("jk rowling", book.Author);
+        Assert.Equal(domainBook.Author, book.Author);
     }
 
 
@@ -112,9 +112,9 @@ public class LibraryControllerTests
 
         var addedBookData = new BookData
         {
-            Title = "To Kill a Mockingbird",
-            Author = "Harper Lee",
-            DateOfPublication = new DateTime(2019, 1, 6),
+            Title = newBook.Title,
+            Author = newBook.Author,
+            DateOfPublication = newBook.DateOfPublication,
             Id = 2
         };
 
@@ -122,16 +122,15 @@ public class LibraryControllerTests
 
         var controller = new LibraryController(mockedLogger.Object, mockedLibraryProcessor.Object);
 
-        // Act
         IActionResult actionResult = controller.AddBook(newBook);
         var result = actionResult as OkObjectResult;
 
         var returnedBook = result?.Value as BookData;
         Assert.Equal(200, result?.StatusCode);
 
-        Assert.Equal(2, returnedBook?.Id);
-        Assert.Equal("Harper Lee", returnedBook?.Author);
-        Assert.Equal("To Kill a Mockingbird", returnedBook?.Title);
+        Assert.Equal(addedBookData.Id, returnedBook?.Id);
+        Assert.Equal(newBook.Author, returnedBook?.Author);
+        Assert.Equal(newBook.Title, returnedBook?.Title);
     }
 
     [Fact]
@@ -158,6 +157,8 @@ public class LibraryControllerTests
             },
         };
 
+        string responseMessage = "Book deleted";
+
         mockedLibraryProcessor.Setup(x => x.DeleteBookById("1")).Returns(true);
 
         var controller = new LibraryController(mockedLogger.Object, mockedLibraryProcessor.Object);
@@ -168,7 +169,7 @@ public class LibraryControllerTests
         var res = result?.Value as string;
 
         Assert.Equal(200, result?.StatusCode);
-        Assert.Equal("Book deleted", res);
+        Assert.Equal(responseMessage, res);
     }
 
 }

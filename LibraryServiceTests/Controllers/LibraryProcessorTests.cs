@@ -1,13 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using System;
-using System.Collections.Generic;
 using LibraryService.DAL;
 using LibraryService.DAL.Contracts;
 using LibraryService.Processors;
-using LibraryService.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
 
 namespace LibraryServiceTests
 {
@@ -57,32 +53,6 @@ namespace LibraryServiceTests
             Assert.Equal(3, domainBooks.Count());
         }
 
-        //[Fact]
-        //public void GetBookById_GivenBookExists_shouldReturnBook()
-        //{
-        //    // Arrange
-        //    var mockedBookRepository = new Mock<IBookRepository>();
-        //    var mockedDomainBookMapper = new Mock<IDomainBookMapper>();
-
-        //    var libraryProcessor = new LibraryProcessor(mockedBookRepository.Object, mockedDomainBookMapper.Object);
-
-        //    // Setup mockedBookRepository to return a specific BookData object when GetById is called with "1"
-        //    mockedBookRepository.Setup(x => x.GetById("1")).Returns(new BookData
-        //    {
-        //        Title = "Harry Potter and The Half Blood Prince",
-        //        Author = "jk rowling",
-        //        DateOfPublication = new DateTime(2005, 7, 16),
-        //        createdAt = "created_at_datetime",
-        //        Id = 1
-        //    });
-
-        //    // Act
-        //    var result = libraryProcessor.GetById("1");
-
-        //    // Assert
-        //    Assert.Equal("jk rowling", result.Author);
-        //}
-
         [Fact]
         public void DeleteById_GivenBookExists_ShouldDeleteBook()
         {
@@ -110,18 +80,14 @@ namespace LibraryServiceTests
             };
 
             mockedBookRepository.Setup(x => x.DeleteBookById("1")).Returns(true);
-
             var libraryProcessor = new LibraryProcessor(mockedBookRepository.Object, mockedDomainBookMapper.Object);
-
             var result = libraryProcessor.DeleteBookById("1");
-
             Assert.True(result);
         }
 
         [Fact]
         public void AddBook_GivenBookIsAdded_ShouldReturnAddedBook()
         {
-            // Arrange
             var mockedBookRepository = new Mock<IBookRepository>();
             var mockedDomainBookMapper = new Mock<IDomainBookMapper>();
 
@@ -134,9 +100,9 @@ namespace LibraryServiceTests
 
             var addedBookData = new BookData
             {
-                Title = "To Kill a Mockingbird",
-                Author = "Harper Lee",
-                DateOfPublication = new DateTime(2019, 1, 6),
+                Title = newBook.Title,
+                Author = newBook.Author,
+                DateOfPublication = newBook.DateOfPublication,
                 Id = 2
             };
 
@@ -148,6 +114,46 @@ namespace LibraryServiceTests
 
             Assert.NotNull(result); 
             Assert.Equal(addedBookData, result);
+        }
+
+        [Fact]
+        public void GetBookById_GivenBookExists_shouldReturnBook()
+        {
+            var mockedBookRepository = new Mock<IBookRepository>();
+            var mockedDomainBookMapper = new Mock<IDomainBookMapper>();
+
+            var book = new BookData
+            {
+                Title = "Harry Potter and The Half Blood Prince",
+                Author = "jk rowling",
+                DateOfPublication = new DateTime(2005, 7, 16),
+                createdAt = "created_at_datetime",
+                Id = 6
+            };
+
+            var domainBook = new DomainBook
+            {
+                Title = book.Title,
+                Author = book.Author,
+                DateOfPublication = book.DateOfPublication,
+                Id = book.Id
+            };
+
+            // Setup mockedBookRepository to return a specific BookData object when GetById is called with "1"
+            mockedBookRepository.Setup(x => x.GetById("1")).Returns(book);
+
+            // Setup mockedDomainBookMapper to return a specific DomainBook object when GetById is called with "1"
+            mockedDomainBookMapper.Setup(x => x.Map(book)).Returns(domainBook);
+
+            var libraryProcessor = new LibraryProcessor(mockedBookRepository.Object, mockedDomainBookMapper.Object);
+
+            var result = libraryProcessor.GetById("1");
+
+            Assert.Equal(domainBook.Author, result.Author);
+            Assert.Equal(domainBook.Title, result.Title);
+            Assert.Equal(domainBook.Id, result.Id);
+
+
         }
     }
 
